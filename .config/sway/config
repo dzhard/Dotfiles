@@ -1,0 +1,316 @@
+
+#
+# Copy this to ~/.config/sway/config and edit it to your liking.
+#
+# Read `man 5 sway` for a complete reference.
+
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+set $monitor_one_mod_key Ctrl
+set $monitor_two_mod_key Mod4
+font pango:monospace 8
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+# Your preferred terminal emulator
+set $term tilix 
+# Your preferred application launcher
+# Note: it's recommended that you pass the final command to sway
+set $menu "rofi -combi-modi window,drun -show combi -modi combi -theme gruvbox-dark-hard"
+
+#dmenu_path | dmenu | xargs swaymsg exec
+
+output DP-1 pos 0 0 res 1920x1080
+output DP-2 pos 1920 0 res 1920x1080
+output * bg /home/dzmitry/.config/sway/wallpaper.png fill
+#
+set $monitor_one DP-1
+set $monitor_two DP-2
+
+default_border none
+titlebar_border_thickness 1
+titlebar_padding 3 1
+
+client.focused          #285577 #285577 #FFFFFF #2E9EF4   #285577
+client.focused_inactive #5F676A #5F676A #FFFFFF #484E50   #5F676A
+client.unfocused        #222222 #222222 #888888 #292D2E   #222222
+client.urgent           #900000 #900000 #FFFFFF #900000   #900000
+client.placeholder      #0C0C0C #0C0C0C #FFFFFF #000000   #0C0C0C
+
+
+#bindsym border none
+# You can get the names of your outputs by running: swaymsg -t get_outputs
+
+### Idle configuration
+#
+# Example configuration:
+#
+ exec swayidle -w \
+          timeout 300 '~/.config/sway/lock/lockscreen.sh' \
+          timeout 600 'swaymsg "output * dpms off"' \
+               resume 'swaymsg "output * dpms on"' \
+          before-sleep 'swaylock -f -c 000000'
+bindsym $mod+Ctrl+l exec "/home/dzmitry/.config/sway/lock/lockscreen.sh"
+#
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+
+### Input configuration
+#
+# Example configuration:
+#
+#   input "2:14:SynPS/2_Synaptics_TouchPad" {
+#       dwt enabled
+#       tap enabled
+#       natural_scroll enabled
+#       middle_emulation enabled
+#   }
+#
+# You can get the names of your inputs by running: swaymsg -t get_inputs
+# Read `man 5 sway-input` for more information about this section.
+
+input * xkb_layout "us,ru"
+input * xkb_options "grp:caps_toggle"
+
+### Key bindings
+#
+# Basics:
+#
+    # start a terminal
+    bindsym $mod+Return exec $term
+
+    # kill focused window
+    bindsym $mod+Shift+q kill
+    bindsym $mod+d exec $menu
+
+    # Drag floating windows by holding down $mod and left mouse button.
+    # Resize them with right mouse button + $mod.
+    # Despite the name, also works for non-floating windows.
+    # Change normal to inverse to use left mouse button for resizing and right
+    # mouse button for dragging.
+    floating_modifier $mod normal
+
+    # reload the configuration file
+    bindsym $mod+Shift+c reload
+
+    # exit sway (logs you out of your Wayland session)
+    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+#
+# Moving around:
+#
+    # Move your focus around
+    bindsym $mod+$left focus left
+    bindsym $mod+$down focus down
+    bindsym $mod+$up focus up
+    bindsym $mod+$right focus right
+    # or use $mod+[up|down|left|right]
+    bindsym $mod+Left focus left
+    bindsym $mod+Down focus down
+    bindsym $mod+Up focus up
+    bindsym $mod+Right focus right
+
+    # _move_ the focused window with the same, but add Shift
+    bindsym $mod+Shift+$left move left
+    bindsym $mod+Shift+$down move down
+    bindsym $mod+Shift+$up move up
+    bindsym $mod+Shift+$right move right
+    # ditto, with arrow keys
+    bindsym $mod+Shift+Left move left
+    bindsym $mod+Shift+Down move down
+    bindsym $mod+Shift+Up move up
+    bindsym $mod+Shift+Right move right
+#
+# Workspaces:
+#
+
+set $ws1 "1:term"
+set $ws2 "2"
+set $ws3 "3:web"
+set $ws4 "4:docker"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+set $ws11 "11"
+set $ws12 "12:msg"
+set $ws13 "13"
+set $ws14 "14:idea"
+set $ws15 "15"
+set $ws16 "16:code"
+set $ws17 "17:postman"
+set $ws18 "18"
+set $ws19 "19"
+set $ws20 "20"
+
+workspace $ws1 output $monitor_one
+workspace $ws2 output $monitor_one
+workspace $ws3 output $monitor_one
+workspace $ws4 output $monitor_one
+workspace $ws5 output $monitor_one
+workspace $ws6 output $monitor_one
+workspace $ws7 output $monitor_one
+workspace $ws8 output $monitor_one
+workspace $ws9 output $monitor_one
+workspace $ws10 output $monitor_one
+workspace $ws11 output $monitor_two
+workspace $ws12 output $monitor_two
+workspace $ws13 output $monitor_two
+workspace $ws14 output $monitor_two
+workspace $ws15 output $monitor_two
+workspace $ws16 output $monitor_two
+workspace $ws17 output $monitor_two
+workspace $ws18 output $monitor_two
+workspace $ws19 output $monitor_two
+workspace $ws20 output $monitor_two
+
+# switch to workspace
+bindsym $monitor_one_mod_key+1 workspace $ws1
+bindsym $monitor_one_mod_key+2 workspace $ws2
+bindsym $monitor_one_mod_key+3 workspace $ws3
+bindsym $monitor_one_mod_key+4 workspace $ws4
+bindsym $monitor_one_mod_key+5 workspace $ws5
+bindsym $monitor_one_mod_key+6 workspace $ws6
+bindsym $monitor_one_mod_key+7 workspace $ws7
+bindsym $monitor_one_mod_key+8 workspace $ws8
+bindsym $monitor_one_mod_key+9 workspace $ws9
+bindsym $monitor_one_mod_key+0 workspace $ws10
+bindsym $monitor_two_mod_key+1 workspace $ws11
+bindsym $monitor_two_mod_key+2 workspace $ws12
+bindsym $monitor_two_mod_key+3 workspace $ws13
+bindsym $monitor_two_mod_key+4 workspace $ws14
+bindsym $monitor_two_mod_key+5 workspace $ws15
+bindsym $monitor_two_mod_key+6 workspace $ws16
+bindsym $monitor_two_mod_key+7 workspace $ws17
+bindsym $monitor_two_mod_key+8 workspace $ws18
+bindsym $monitor_two_mod_key+9 workspace $ws19
+bindsym $monitor_two_mod_key+0 workspace $ws20
+
+bindsym $monitor_one_mod_key+Shift+1 move container to workspace $ws1
+bindsym $monitor_one_mod_key+Shift+2 move container to workspace $ws2
+bindsym $monitor_one_mod_key+Shift+3 move container to workspace $ws3
+bindsym $monitor_one_mod_key+Shift+4 move container to workspace $ws4
+bindsym $monitor_one_mod_key+Shift+5 move container to workspace $ws5
+bindsym $monitor_one_mod_key+Shift+6 move container to workspace $ws6
+bindsym $monitor_one_mod_key+Shift+7 move container to workspace $ws7
+bindsym $monitor_one_mod_key+Shift+8 move container to workspace $ws8
+bindsym $monitor_one_mod_key+Shift+9 move container to workspace $ws9
+bindsym $monitor_one_mod_key+Shift+0 move container to workspace $ws10
+bindsym $monitor_two_mod_key+Shift+1 move container to workspace $ws11
+bindsym $monitor_two_mod_key+Shift+2 move container to workspace $ws12
+bindsym $monitor_two_mod_key+Shift+3 move container to workspace $ws13
+bindsym $monitor_two_mod_key+Shift+4 move container to workspace $ws14
+bindsym $monitor_two_mod_key+Shift+5 move container to workspace $ws15
+bindsym $monitor_two_mod_key+Shift+6 move container to workspace $ws16
+bindsym $monitor_two_mod_key+Shift+7 move container to workspace $ws17
+bindsym $monitor_two_mod_key+Shift+8 move container to workspace $ws18
+bindsym $monitor_two_mod_key+Shift+9 move container to workspace $ws19
+bindsym $monitor_two_mod_key+Shift+0 move container to workspace $ws20
+
+    # Note: workspaces can have any name you want, not just numbers.
+    # We just use 1-10 as the default.
+#
+# Layout stuff:
+#
+    # You can "split" the current object of your focus with
+    # $mod+b or $mod+v, for horizontal and vertical splits
+    # respectively.
+    bindsym $mod+b splith
+    bindsym $mod+v splitv
+
+    # Switch the current container between different layout styles
+    bindsym $mod+s layout stacking
+    bindsym $mod+w layout tabbed
+    bindsym $mod+e layout toggle split
+
+    # Make the current focus fullscreen
+    bindsym $mod+f fullscreen
+
+    # Toggle the current focus between tiling and floating mode
+    bindsym $mod+Shift+space floating toggle
+
+    # Swap focus between the tiling area and the floating area
+    bindsym $mod+space focus mode_toggle
+
+    # move focus to the parent container
+    bindsym $mod+a focus parent
+#
+# Scratchpad:
+#
+    # Sway has a "scratchpad", which is a bag of holding for windows.
+    # You can send windows there and get them back later.
+
+    # Move the currently focused window to the scratchpad
+    bindsym $mod+Shift+minus move scratchpad
+
+    # Show the next scratchpad window or hide the focused scratchpad window.
+    # If there are multiple scratchpad windows, this command cycles through them.
+    bindsym $mod+minus scratchpad show
+#
+# Resizing containers:
+#
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    # ditto, with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+    swaybar_command waybar
+   # position top
+
+    # When the status_command prints a new line to stdout, swaybar updates.
+    # The default just shows the current date and time.
+   # status_command while date +'%Y-%m-%d %H:%M:%S'; do sleep 1; done
+
+    #colors {
+    #    statusline #ffffff
+    #    background #323232
+    #    inactive_workspace #32323200 #32323200 #5c5c5c
+    #
+}
+
+
+for_window [class="idea"] move to workspace $ws14
+for_window [class="firefox"] move to workspace $ws3
+for_window [class="Code"] move to workspace $ws16
+for_window [class="Postman"] move to workspace $ws17
+for_window [class="Skype"] move to workspace $ws12
+for_window [class="TelegramDesktop"] move to workspace $ws12
+for_window [class="teams-for-linux"] move to workspace $ws13
+for_window [class="slack"] move to workspace $ws13
+
+include /etc/sway/config.d/*
+
+exec firefox
+exec skypeforlinux
+exec telegram-desktop
+exec teams-for-linux
+#exec slack
+exec mako
